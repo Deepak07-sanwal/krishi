@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:krishi/common/widgets/background_image.dart';
 import 'package:krishi/common/widgets/other_paltform_auth.dart';
 import 'package:krishi/common/widgets/text_divider.dart';
+import 'package:krishi/features/authentication/controllers/authentication_controller.dart';
 import 'package:krishi/features/authentication/screens/login.dart';
 
 class SignUp extends StatelessWidget {
@@ -10,9 +12,10 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _nameController = TextEditingController();
-    final _emailController = TextEditingController();
-    final _passwordController = TextEditingController();
+    final authenticationController = Get.put(AuthenticationController());
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
     return Scaffold(
       body: Stack(
         children: [
@@ -29,7 +32,6 @@ class SignUp extends StatelessWidget {
                 ),
                 child: Card(
                   color: Theme.of(context).primaryColor.withOpacity(0.3),
-                  shadowColor: Theme.of(context).colorScheme.secondary,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -53,7 +55,7 @@ class SignUp extends StatelessWidget {
                               height: 40,
                             ),
                             TextFormField(
-                              controller: _nameController,
+                              controller: nameController,
                               decoration: InputDecoration(
                                 fillColor:
                                     Theme.of(context).colorScheme.background,
@@ -88,7 +90,7 @@ class SignUp extends StatelessWidget {
                               height: 30,
                             ),
                             TextFormField(
-                              controller: _emailController,
+                              controller: emailController,
                               decoration: InputDecoration(
                                 fillColor:
                                     Theme.of(context).colorScheme.background,
@@ -123,7 +125,7 @@ class SignUp extends StatelessWidget {
                               height: 30,
                             ),
                             TextFormField(
-                              controller: _passwordController,
+                              controller: passwordController,
                               decoration: InputDecoration(
                                 fillColor:
                                     Theme.of(context).colorScheme.background,
@@ -158,7 +160,16 @@ class SignUp extends StatelessWidget {
                               height: 50,
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                try {
+                                  authenticationController.signUpAuthentication(
+                                      emailController.text,
+                                      passwordController.text);
+                                  Get.to(() => const Login());
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
+                              },
                               style: Theme.of(context)
                                   .elevatedButtonTheme
                                   .style!
