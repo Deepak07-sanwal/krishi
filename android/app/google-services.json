@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "328408664143",
+    "project_id": "krishi-d6baf",
+    "storage_bucket": "krishi-d6baf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328408664143:android:49a9cdd63c593f99db423a",
+        "android_client_info": {
+          "package_name": "com.example.krishi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAInCl53t09IURbDB-D-aFyDy1kbWWPGtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

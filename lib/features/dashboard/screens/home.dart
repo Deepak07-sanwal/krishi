@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:krishi/features/dashboard/screens/custom/main_screen_card_tile.dart';
 import 'package:krishi/features/dashboard/screens/custom/recommedation_card.dart';
 import 'package:krishi/features/shop/screens/add_to_cart.dart';
