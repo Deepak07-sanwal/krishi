@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:krishi/common/widgets/background_image.dart';
 import 'package:krishi/common/widgets/other_paltform_auth.dart';
 import 'package:krishi/common/widgets/text_divider.dart';
+import 'package:krishi/features/authentication/controllers/authentication_controller.dart';
 import 'package:krishi/features/authentication/screens/signup.dart';
 import 'package:krishi/features/dashboard/dashboard.dart';
 
@@ -11,6 +13,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authenticationController = Get.put(AuthenticationController());
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
     return Scaffold(
@@ -124,11 +127,16 @@ class Login extends StatelessWidget {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Dashboard()));
+                                bool value = authenticationController
+                                    .loginAuthentication(_emailController.text,
+                                        _passwordController.text);
+                                if (value == true) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Dashboard()));
+                                }
                               },
                               style: Theme.of(context)
                                   .elevatedButtonTheme

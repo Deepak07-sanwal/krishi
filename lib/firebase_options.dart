@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'krishi-d6baf.appspot.com',
     iosBundleId: 'com.example.krishi',
   );
+
 }
