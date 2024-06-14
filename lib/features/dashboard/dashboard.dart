@@ -3,25 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:krishi/features/cropSelling/screens/selling_page.dart';
 import 'package:krishi/features/dashboard/screens/home.dart';
 import 'package:krishi/features/dashboard/screens/settings.dart';
-import 'package:krishi/features/disease_detection/screens/select_photo.dart';
+import 'package:krishi/features/disease_detection/screens/tflite_model.dart';
 import 'package:krishi/features/shop/screens/buying.dart';
 
 enum _SelectedTab { home, favorite, add, search, person }
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final String? uid;
+  const Dashboard({super.key, this.uid});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<Widget> screens = [];
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      const Home(),
+      const BuyingPage(),
+      const Placeholder(),
+      SellingPage(uid: widget.uid),
+      const Settings(),
+    ];
+  }
+
   var _selectedTab = _SelectedTab.home;
 
   void _handleIndexChanged(int i) {
     if (i == 2) {
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const SelectPhoto()));
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const SelectPhoto()));
+          MaterialPageRoute(builder: (context) => const TfliteModel()));
     } else {
       setState(() {
         _selectedTab = _SelectedTab.values[i];
@@ -29,13 +45,6 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  List<Widget> screens = [
-    const Home(),
-    const BuyingPage(),
-    const Placeholder(),
-    const SellingPage(),
-    const Settings(),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

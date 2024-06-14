@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:krishi/features/authentication/screens/login.dart';
+import 'package:krishi/splashscrceen.dart';
 import 'package:krishi/utils/theme/theme.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: CAppTheme.lightTheme,
       darkTheme: CAppTheme.darkTheme,
-      home: const Login(),
+      home: const SplashScreen(),
     );
   }
 }

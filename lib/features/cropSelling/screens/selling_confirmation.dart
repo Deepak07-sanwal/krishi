@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:krishi/features/cropSelling/controllers/selling_controller.dart';
 
 class SellingConfirmation extends StatelessWidget {
-  const SellingConfirmation({super.key});
+  final String? uid;
+  const SellingConfirmation({super.key, this.uid});
 
   @override
   Widget build(BuildContext context) {
+    final sellingController = Get.put(SellingController());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Sell Confirmation"),
@@ -66,25 +70,25 @@ class SellingConfirmation extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Crop Name"),
-                      Spacer(),
-                      Text("Corn"),
+                      const Text("Crop Name"),
+                      const Spacer(),
+                      Text(sellingController.cropName),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Quantity/ Weight"),
-                      Spacer(),
-                      Text("24kg"),
+                      const Text("Quantity/ Weight"),
+                      const Spacer(),
+                      Text(sellingController.cropQuantity.toString()),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Per kg price"),
-                      Spacer(),
-                      Text("\$234"),
+                      const Text("Per kg price"),
+                      const Spacer(),
+                      Text("Rs. ${sellingController.cropPrice}"),
                     ],
                   ),
                   Divider(
@@ -104,11 +108,12 @@ class SellingConfirmation extends StatelessWidget {
                           ))
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Total Payment"),
-                      Spacer(),
-                      Text("\$23,9090"),
+                      const Text("Total Payment"),
+                      const Spacer(),
+                      Text(
+                          "Rs. ${sellingController.cropQuantity * sellingController.cropPrice}"),
                     ],
                   ),
                   const SizedBox(
@@ -138,7 +143,10 @@ class SellingConfirmation extends StatelessWidget {
                       ),
                       const Spacer(),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          sellingController.addValueToList(uid);
+                          Get.back();
+                        },
                         style: Theme.of(context)
                             .elevatedButtonTheme
                             .style!

@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:krishi/features/shop/models/cart_details_model.dart';
 
 class CartDetailsController extends GetxController {
-  final RxList<String> _cardItem = ["Red Orange", "Test"].obs;
-  final RxList<int> _itemQuantity = [10, 20].obs;
-  final RxList<int> _itemPrice = [50, 100].obs;
+  final RxList<String> _cardItem = <String>[].obs;
+  final RxList<int> _itemQuantity = <int>[].obs;
+  final RxList<int> _itemPrice = <int>[].obs;
+  final RxList<String> _productId = <String>[].obs;
 
   RxList<String> get cardItem => _cardItem;
 
@@ -27,9 +30,32 @@ class CartDetailsController extends GetxController {
     update();
   }
 
+  RxList<String> get productId => _productId;
+
+  set productId(List<String> item) {
+    _productId.addAll(item);
+    update();
+  }
+
   void deleteItem(index) {
     _itemPrice.removeAt(index);
     _itemQuantity.removeAt(index);
     _cardItem.removeAt(index);
+    _productId.removeAt(index);
+    update();
+  }
+
+  Future<void> addProductsToFirebase({String? uid}) async {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection("products");
+    try {
+      users.doc(uid).set(CartDetailsModel(
+              itemName: _cardItem,
+              itemQuantity: _itemQuantity,
+              itemPrice: _itemPrice)
+          .toJson());
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:krishi/features/shop/screens/add_to_cart.dart';
 import 'package:krishi/features/shop/screens/fertilizer_product.dart';
 import 'package:krishi/features/shop/screens/pesticide_product.dart';
-import 'package:krishi/features/shop/screens/recomendated_product.dart';
+
 import 'package:krishi/features/shop/screens/seeds_product.dart'; // Adjust the import according to your file structure
 
 class BuyingPage extends StatefulWidget {
@@ -13,16 +13,15 @@ class BuyingPage extends StatefulWidget {
 }
 
 class _BuyingPageState extends State<BuyingPage> {
-  final categories = ["Recomendation", "Seeds", "Fertilizer", "Pesticide"];
+  final categories = ["Seeds", "Fertilizer", "Pesticide"];
   final products = [
-    const RecomendatedProducts(),
     const SeedsProducts(),
     const FertilizerProducts(),
     const PesticideProducts(),
   ];
   int productIndex = 0;
 
-  String selectedCategory = "Recomendation";
+  String selectedCategory = "Seeds";
 
   @override
   Widget build(BuildContext context) {

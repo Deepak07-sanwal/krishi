@@ -10,10 +10,6 @@ class AddToCard extends StatefulWidget {
 }
 
 class _AddToCardState extends State<AddToCard> {
-  List items = ["Red Orange", "Item2"];
-  List itemsQuantity = [10, 20];
-  List itemsPrice = [100, 200];
-
   @override
   Widget build(BuildContext context) {
     CartDetailsController c = Get.put(CartDetailsController());
@@ -45,7 +41,7 @@ class _AddToCardState extends State<AddToCard> {
                           children: [
                             Image.asset(
                               "assets/images/fertilizer.png",
-                              width: 90,
+                              width: 80,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -89,7 +85,12 @@ class _AddToCardState extends State<AddToCard> {
                                               .colorScheme
                                               .primary,
                                         )),
-                                    Text(c.itemQuantity[index].toString()),
+                                    Text(
+                                      c.itemQuantity[index].toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
+                                    ),
                                     IconButton(
                                         onPressed: () {
                                           c.itemQuantity[index] += 1;
@@ -118,7 +119,10 @@ class _AddToCardState extends State<AddToCard> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: ElevatedButton(
-            onPressed: () {}, child: const Text("Proceed to buy")),
+            onPressed: () {
+              c.addProductsToFirebase(uid: "pfDHaffb2bXk6I2u8GBE5xZkEs43");
+            },
+            child: const Text("Proceed to buy")),
       ),
     );
   }

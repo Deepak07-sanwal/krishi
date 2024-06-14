@@ -128,14 +128,15 @@ class Login extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () {
                                 try {
-                                  authenticationController.loginAuthentication(
-                                      _emailController.text,
-                                      _passwordController.text);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Dashboard()));
+                                  authenticationController
+                                      .loginAuthentication(
+                                          _emailController.text,
+                                          _passwordController.text)
+                                      .then((uid) {
+                                    Get.to(Dashboard(
+                                      uid: uid,
+                                    ));
+                                  });
                                 } catch (e) {
                                   Get.snackbar("Error", e.toString());
                                 }

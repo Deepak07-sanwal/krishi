@@ -164,7 +164,9 @@ class SignUp extends StatelessWidget {
                                 try {
                                   authenticationController.signUpAuthentication(
                                       emailController.text,
-                                      passwordController.text);
+                                      passwordController.text).then((uid) {
+                                        authenticationController.addUserToFirebase(name : nameController.text,email : emailController.text, uid: uid);
+                                  });
                                   Get.to(() => const Login());
                                 } catch (e) {
                                   debugPrint(e.toString());
