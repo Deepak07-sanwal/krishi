@@ -17,42 +17,42 @@ class RecomendatedProducts extends StatelessWidget {
         scrollDirection: Axis.vertical,
         childAspectRatio: (1 / 1.6),
         children: const <Widget>[
-          ProductCard(
-            image: "assets/images/fertilizer.png",
-            name: "NPK Fertilizer",
-            quantity: "1 Kg",
-            price: "Rs. 100",
-          ),
-          ProductCard(
-            image: "assets/images/fertilizer.png",
-            name: "NPK Fertilizer",
-            quantity: "1 Kg",
-            price: "Rs. 100",
-          ),
-          ProductCard(
-            image: "assets/images/fertilizer.png",
-            name: "NPK Fertilizer",
-            quantity: "1 Kg",
-            price: "Rs. 100",
-          ),
-          ProductCard(
-            image: "assets/images/fertilizer.png",
-            name: "NPK Fertilizer",
-            quantity: "1 Kg",
-            price: "Rs. 100",
-          ),
-          ProductCard(
-            image: "assets/images/fertilizer.png",
-            name: "NPK Fertilizer",
-            quantity: "1 Kg",
-            price: "Rs. 100",
-          ),
-          ProductCard(
-            image: "assets/images/fertilizer.png",
-            name: "NPK Fertilizer",
-            quantity: "1 Kg",
-            price: "Rs. 100",
-          ),
+          // ProductCard(
+          //   image: "assets/images/fertilizer.png",
+          //   name: "NPK Fertilizer",
+          //   quantity: "1 Kg",
+          //   price: "Rs. 100",
+          // ),
+          // ProductCard(
+          //   image: "assets/images/fertilizer.png",
+          //   name: "NPK Fertilizer",
+          //   quantity: "1 Kg",
+          //   price: "Rs. 100",
+          // ),
+          // ProductCard(
+          //   image: "assets/images/fertilizer.png",
+          //   name: "NPK Fertilizer",
+          //   quantity: "1 Kg",
+          //   price: "Rs. 100",
+          // ),
+          // ProductCard(
+          //   image: "assets/images/fertilizer.png",
+          //   name: "NPK Fertilizer",
+          //   quantity: "1 Kg",
+          //   price: "Rs. 100",
+          // ),
+          // ProductCard(
+          //   image: "assets/images/fertilizer.png",
+          //   name: "NPK Fertilizer",
+          //   quantity: "1 Kg",
+          //   price: "Rs. 100",
+          // ),
+          // ProductCard(
+          //   image: "assets/images/fertilizer.png",
+          //   name: "NPK Fertilizer",
+          //   quantity: "1 Kg",
+          //   price: "Rs. 100",
+          // ),
         ],
       ),
     );

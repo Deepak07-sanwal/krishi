@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:krishi/features/authentication/controllers/authentication_controller.dart';
+import 'package:krishi/features/dashboard/dashboard.dart';
 
 class OtherPlatformAuth extends StatelessWidget {
   const OtherPlatformAuth({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationController c = AuthenticationController();
     return Row(
       children: [
         const Spacer(),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            try {
+              c.signInwithGoogle().then((uid) {
+                Get.to(Dashboard(
+                  uid: uid,
+                ));
+              });
+            } catch (e) {
+              Get.snackbar("error", e.toString());
+            }
+          },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.white)),
           icon: Image.asset(

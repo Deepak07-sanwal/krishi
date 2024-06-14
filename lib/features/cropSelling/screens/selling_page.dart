@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:krishi/features/cropSelling/controllers/selling_controller.dart';
 import 'package:krishi/features/cropSelling/screens/selling_confirmation.dart';
 
 class SellingPage extends StatefulWidget {
-  const SellingPage({super.key});
+  final String? uid;
+  const SellingPage({super.key, this.uid});
 
   @override
   State<SellingPage> createState() => _SellingPageState();
 }
 
 class _SellingPageState extends State<SellingPage> {
-  List<DropdownMenuItem<String>>? items = [
-    const DropdownMenuItem(child: Text("Corn")),
-    const DropdownMenuItem(child: Text("Wheat")),
-  ];
-
   final optionsList = ["Corn", "wheat", "milk", "banana"];
 
   String? _cropSelected;
@@ -37,6 +35,9 @@ class _SellingPageState extends State<SellingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final sellingController = Get.put(SellingController());
+    TextEditingController cropQuantityController = TextEditingController();
+    TextEditingController cropPriceController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -65,6 +66,7 @@ class _SellingPageState extends State<SellingPage> {
                           value: _cropSelected,
                           hint: const Text('Select an Crop Type'),
                           onChanged: (newValue) {
+                            sellingController.cropName = newValue!;
                             setState(() {
                               _cropSelected = newValue;
                             });
@@ -79,7 +81,15 @@ class _SellingPageState extends State<SellingPage> {
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                        color: const Color.fromARGB(
+                                            255, 147, 147, 147)),
+                              ),
                             );
                           }).toList(),
                         ),
@@ -87,6 +97,8 @@ class _SellingPageState extends State<SellingPage> {
                           height: 20,
                         ),
                         TextFormField(
+                          controller: cropQuantityController,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             label: Text(printQuantityText()),
                             labelStyle: Theme.of(context).textTheme.labelMedium,
@@ -98,6 +110,7 @@ class _SellingPageState extends State<SellingPage> {
                           height: 20,
                         ),
                         TextFormField(
+                          controller: cropPriceController,
                           decoration: InputDecoration(
                             label: Text(printPriceText()),
                             labelStyle: Theme.of(context).textTheme.labelMedium,
@@ -110,11 +123,16 @@ class _SellingPageState extends State<SellingPage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            sellingController.cropQuantity =
+                                int.parse(cropQuantityController.text);
+                            sellingController.cropPrice =
+                                int.parse(cropPriceController.text);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SellingConfirmation()));
+                                    builder: (context) => SellingConfirmation(
+                                          uid: widget.uid,
+                                        )));
                           },
                           style: Theme.of(context)
                               .elevatedButtonTheme

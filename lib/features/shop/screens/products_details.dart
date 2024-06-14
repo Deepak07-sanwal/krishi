@@ -1,9 +1,34 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:krishi/features/shop/controllers/cart_details_controller.dart';
+import 'package:krishi/features/shop/screens/add_to_cart.dart';
 import 'package:readmore/readmore.dart';
 
-class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
+class ProductDetails extends StatefulWidget {
+  final String image;
+  final String name;
+  final int quantity;
+  final int price;
+  final String description;
+  const ProductDetails({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.quantity,
+    required this.price,
+    required this.description,
+  });
 
+  @override
+  State<ProductDetails> createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails> {
+  int tempQuantity = 1;
+  String stock = "Available in stocks";
+  String stockColor = "primary";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,17 +50,25 @@ class ProductDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/images/home-bg.png",
-                width: double.infinity,
-                height: 250,
-                fit: BoxFit.fitWidth,
+              CachedNetworkImage(
+                imageUrl: widget.image,
+                imageBuilder: (context, imageProvider) => Image(
+                  width: 500,
+                  image: imageProvider,
+                  fit: BoxFit.fitWidth,
+                ),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/images/home-bg.png",
+                  fit: BoxFit.fitWidth,
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                "Black Tea leaf",
+                widget.name,
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium!
@@ -48,9 +81,11 @@ class ProductDetails extends StatelessWidget {
                 children: [
                   Column(children: [
                     Text(
-                      "Available in stocks",
+                      stock,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.primary),
+                          color: stockColor == "primary"
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.error),
                     ),
                     TextButton.icon(
                       onPressed: () {},
@@ -70,18 +105,50 @@ class ProductDetails extends StatelessWidget {
                   const Spacer(),
                   Column(
                     children: [
-                      const Text("Rs. 5/kg"),
+                      Text("Rs. ${widget.price}"),
                       Row(
                         children: [
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (tempQuantity > 1) {
+                                  setState(() {
+                                    tempQuantity--;
+                                  });
+                                  if (tempQuantity <= widget.quantity) {
+                                    setState(() {
+                                      stock = "Available in stocks";
+                                      stockColor = "primary";
+                                    });
+                                  } else {
+                                    setState(() {
+                                      stock = "Out of stock";
+                                      stockColor = "error";
+                                    });
+                                  }
+                                }
+                              },
                               icon: Icon(
                                 Icons.remove_circle,
                                 color: Theme.of(context).colorScheme.primary,
                               )),
-                          const Text("10"),
+                          Text("$tempQuantity"),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  tempQuantity++;
+                                });
+                                if (tempQuantity > widget.quantity) {
+                                  setState(() {
+                                    stock = "Out of stock";
+                                    stockColor = "error";
+                                  });
+                                } else {
+                                  setState(() {
+                                    stock = "Available in stocks";
+                                    stockColor = "primary";
+                                  });
+                                }
+                              },
                               icon: Icon(
                                 Icons.add_circle,
                                 color: Theme.of(context).colorScheme.primary,
@@ -97,8 +164,7 @@ class ProductDetails extends StatelessWidget {
                       .textTheme
                       .headlineSmall!
                       .copyWith(color: Theme.of(context).colorScheme.tertiary)),
-              ReadMoreText(
-                  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat ",
+              ReadMoreText(widget.description,
                   trimLines: 2,
                   colorClickableText: Theme.of(context).colorScheme.primary,
                   trimCollapsedText: 'Show more',
@@ -110,8 +176,15 @@ class ProductDetails extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-        child:
-            ElevatedButton(onPressed: () {}, child: const Text("Add to Cart")),
+        child: ElevatedButton(
+            onPressed: () {
+              final carddetailscontroller = Get.put(CartDetailsController());
+              carddetailscontroller.cardItem.add(widget.name);
+              carddetailscontroller.itemQuantity.add(tempQuantity);
+              carddetailscontroller.itemPrice.add(widget.price);
+              Get.to(const AddToCard());
+            },
+            child: const Text("Add to Cart")),
       ),
     );
   }

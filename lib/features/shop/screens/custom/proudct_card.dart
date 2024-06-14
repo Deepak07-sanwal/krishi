@@ -1,12 +1,15 @@
 // ProductCard widget
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:krishi/features/shop/screens/products_details.dart';
 
 class ProductCard extends StatelessWidget {
   final String image;
   final String name;
-  final String quantity;
-  final String price;
+  final int quantity;
+  final int price;
+  final String description;
+  final String productId;
 
   const ProductCard({
     super.key,
@@ -14,21 +17,47 @@ class ProductCard extends StatelessWidget {
     required this.name,
     required this.quantity,
     required this.price,
+    required this.description,
+    required this.productId,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ProductDetails()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductDetails(
+                      image: image,
+                      name: name,
+                      quantity: quantity,
+                      price: price,
+                      description: description,
+                    )));
       },
       child: Card(
         color: Theme.of(context).colorScheme.onTertiary,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image.asset(image, fit: BoxFit.fitWidth),
+            CachedNetworkImage(
+              imageUrl: image,
+              imageBuilder: (context, imageProvider) => Image(
+                height: 120,
+                width: 200,
+                image: imageProvider,
+                fit: BoxFit.fitWidth,
+              ),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Image.asset(
+                "assets/images/fertilizer.png",
+                height: 150,
+                width: 200,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            // Image.asset(image, fit: BoxFit.fitWidth),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -41,7 +70,7 @@ class ProductCard extends StatelessWidget {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(quantity,
+              child: Text(quantity.toString(),
                   style: Theme.of(context).textTheme.labelMedium),
             ),
             const Spacer(),
@@ -49,7 +78,7 @@ class ProductCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
                 children: [
-                  Text(price,
+                  Text("Rs. $price",
                       style: const TextStyle(fontSize: 14, color: Colors.red)),
                   const Spacer(),
                   GestureDetector(
