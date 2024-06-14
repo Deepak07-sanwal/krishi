@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krishi/features/dashboard/dashboard.dart';
 import 'package:krishi/features/shop/controllers/cart_details_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AddToCard extends StatefulWidget {
-  const AddToCard({super.key});
+class Cart extends StatefulWidget {
+  const Cart({super.key});
 
   @override
-  State<AddToCard> createState() => _AddToCardState();
+  State<Cart> createState() => _CartState();
 }
 
-class _AddToCardState extends State<AddToCard> {
+class _CartState extends State<Cart> {
+  String uid = "";
+  @override
+  void initState() {
+    super.initState();
+    _loadUid();
+  }
+
+  Future<void> _loadUid() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      uid = prefs.getString('uid') ?? "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     CartDetailsController c = Get.put(CartDetailsController());
@@ -120,7 +136,9 @@ class _AddToCardState extends State<AddToCard> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: ElevatedButton(
             onPressed: () {
-              c.addProductsToFirebase(uid: "pfDHaffb2bXk6I2u8GBE5xZkEs43");
+              c.addProductsToFirebase(uid: uid);
+              c.deleteAllItems();
+              Get.off(() => const Dashboard());
             },
             child: const Text("Proceed to buy")),
       ),

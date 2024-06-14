@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:krishi/features/shop/screens/add_to_cart.dart';
+import 'package:get/get.dart';
+import 'package:krishi/features/shop/screens/cart.dart';
 import 'package:krishi/features/shop/screens/fertilizer_product.dart';
 import 'package:krishi/features/shop/screens/pesticide_product.dart';
 
@@ -34,8 +35,7 @@ class _BuyingPageState extends State<BuyingPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddToCard()));
+              Get.to(() => const Cart());
             },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).iconTheme.color,

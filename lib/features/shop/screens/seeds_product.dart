@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:krishi/features/shop/controllers/products_controller.dart';
 import 'package:krishi/features/shop/models/products_model.dart';
