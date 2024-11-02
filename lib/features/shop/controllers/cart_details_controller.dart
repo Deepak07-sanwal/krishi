@@ -45,6 +45,14 @@ class CartDetailsController extends GetxController {
     update();
   }
 
+  void deleteAllItems() {
+    _itemPrice.clear();
+    _itemQuantity.clear();
+    _cardItem.clear();
+    _productId.clear();
+    update();
+  }
+
   Future<void> addProductsToFirebase({String? uid}) async {
     CollectionReference users =
         FirebaseFirestore.instance.collection("products");

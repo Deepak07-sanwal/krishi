@@ -5,6 +5,7 @@ import 'package:krishi/features/dashboard/screens/home.dart';
 import 'package:krishi/features/dashboard/screens/settings.dart';
 import 'package:krishi/features/disease_detection/screens/tflite_model.dart';
 import 'package:krishi/features/shop/screens/buying.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum _SelectedTab { home, favorite, add, search, person }
 
@@ -21,6 +22,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+    _saveUid();
     screens = [
       const Home(),
       const BuyingPage(),
@@ -28,6 +30,11 @@ class _DashboardState extends State<Dashboard> {
       SellingPage(uid: widget.uid),
       const Settings(),
     ];
+  }
+
+  Future<void> _saveUid() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('uid', widget.uid ?? "");
   }
 
   var _selectedTab = _SelectedTab.home;

@@ -1,7 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:krishi/features/dashboard/controllers/dashboard_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -11,6 +15,23 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final numberController = TextEditingController();
+  String uid = "";
+  @override
+  void initState() {
+    super.initState();
+    _loadUid();
+  }
+
+  Future<void> _loadUid() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      uid = prefs.getString('uid') ?? "";
+    });
+  }
+
   File? _selectedImage;
 
   Future _pickImage(ImageSource source) async {
@@ -76,7 +97,21 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   @override
+  void dispose() {
+    // Dispose the controller when the widget is disposed
+    nameController.dispose();
+    emailController.dispose();
+    numberController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    DashboardController dashboardController = Get.put(DashboardController());
+    nameController.text = dashboardController.userInfo.name ?? "";
+    emailController.text = dashboardController.userInfo.email ?? "";
+    numberController.text = dashboardController.userInfo.phoneNumber ?? "";
+    log("Name : ${dashboardController.userInfo.name}");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Profile"),
@@ -153,21 +188,9 @@ class _EditProfileState extends State<EditProfile> {
                       height: 20,
                     ),
                     TextFormField(
+                      controller: nameController,
                       decoration: InputDecoration(
                         hintText: "Jhon Deo",
-                        hintStyle: Theme.of(context).textTheme.labelMedium,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text("Number : "),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "youremail@gmail.com",
                         hintStyle: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
@@ -179,6 +202,21 @@ class _EditProfileState extends State<EditProfile> {
                       height: 20,
                     ),
                     TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        hintText: "youremail@gmail.com",
+                        hintStyle: Theme.of(context).textTheme.labelMedium,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text("Number : "),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: numberController,
                       decoration: InputDecoration(
                         hintText: "+91 999 9990 999",
                         hintStyle: Theme.of(context).textTheme.labelMedium,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:krishi/features/shop/controllers/cart_details_controller.dart';
-import 'package:krishi/features/shop/screens/add_to_cart.dart';
+import 'package:krishi/features/shop/screens/cart.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -38,7 +38,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => const Cart());
+            },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).iconTheme.color,
           )
@@ -182,7 +184,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               carddetailscontroller.cardItem.add(widget.name);
               carddetailscontroller.itemQuantity.add(tempQuantity);
               carddetailscontroller.itemPrice.add(widget.price);
-              Get.to(const AddToCard());
+              Get.to(const Cart());
             },
             child: const Text("Add to Cart")),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krishi/features/dashboard/screens/custom/main_screen_card_tile.dart';
 import 'package:krishi/features/dashboard/screens/custom/recommedation_card.dart';
-import 'package:krishi/features/shop/screens/add_to_cart.dart';
+import 'package:krishi/features/shop/screens/cart.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddToCard()));
+                  MaterialPageRoute(builder: (context) => const Cart()));
             },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).iconTheme.color,
